@@ -1,25 +1,17 @@
-export default async function gateway(req, res) {
-  const { city, lat, lon } = req.query;
-
-  let query = "";
-
-  if (lat && lon) {
-    query = `${lat},${lon}`;
-  } else if (city) {
-    query = city;
-  } else {
-    return res.status(400).json({ error: "City OR lat/lon is required." });
-  }
-
-  try {
-    const response = await fetch(
-      `https://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_KEY}&q=${query}&aqi=no`
-    );
-
-    const data = await response.json();
-    res.status(200).json(data);
-
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
+async function getWeather(city) {
+  const res = await fetch(`/api/weather?city=${city}`);
+  const data = await res.json();
+  return data;
 }
+
+document.getElementById("submit").addEventListener("click", async () => {
+  const city = document.getElementById("city").value;
+  const weather = await getWeather(city);
+
+  console.log(weather);
+
+  document.getElementById("output").innerText =
+    `${weather.location.name}, ${weather.location.country}  
+     ${weather.current.temp_c}°C  
+     ${weather.current.condition.text}`;
+});

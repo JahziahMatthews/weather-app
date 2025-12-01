@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const { city, lat , lon } = req.query;
+  const { city } = req.query;
 
   if (!city) {
     return res.status(400).json({ error: "City is required." });
@@ -7,12 +7,12 @@ export default async function handler(req, res) {
 
   try {
     const response = await fetch(
-      `https://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_KEY}&q=${lat},${lon}&aqi=no`
+      `https://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_KEY}&q=${city}&aqi=no`
     );
 
     const data = await response.json();
     res.status(200).json(data);
-  } catch (e) {
+  } catch (err) {
     res.status(500).json({ error: "Server error." });
   }
 }
