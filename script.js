@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+export default async function gateway(req, res) {
   const { city, lat, lon } = req.query;
 
   let query = "";

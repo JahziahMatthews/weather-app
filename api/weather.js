@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const { lat , lon } = req.query;
+  const { city, lat , lon } = req.query;
 
   if (!city) {
     return res.status(400).json({ error: "City is required." });
